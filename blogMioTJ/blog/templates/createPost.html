@@ -17,4 +17,11 @@
         </form>
     </div>
 </body>
+<script>
+    // Limpiar el formulario y mostrarlo cuando se haya cargado completamente
+    window.onload = function() {
+        document.querySelector('form').reset();
+        document.getElementById('createPostForm').style.display = 'block';
+    };
+</script>
 </html>
