@@ -22,8 +22,14 @@
                 <p>{{ post.contenido }}</p>
                 <p class="date">{{ post.fecha|date:"d M Y" }}</p>
                 {% if post.imagen %}
-                    <img src="{{ post.imagen.url }}" alt="Imagen de {{ post.nombre }}">
+                    <img src="{{ post.imagen.url }}" alt="{{ post.nombre|default:'Imagen del post' }}">
                 {% endif %}
+                <p>{{ post.categoria }}</p>
+                <p><strong>Etiquetas:</strong> 
+                    {% for etiqueta in post.etiqueta.all %}
+                    <span class="tag">{{ etiqueta.nombre }}</span>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
             </div>
             {% endfor %}
         {% else %}
