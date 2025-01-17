@@ -11,7 +11,7 @@
     <div class="container">
         <div>
             <a href="{% url 'createPost' %}">
-                <button>Añadir Post</button>
+                <button class="button-79" role="button">Añadir Post</button>
             </a>
         </div>
         <h1>Lista de Posts</h1>
@@ -24,12 +24,37 @@
                 {% if post.imagen %}
                     <img src="{{ post.imagen.url }}" alt="{{ post.nombre|default:'Imagen del post' }}">
                 {% endif %}
-                <p>{{ post.categoria }}</p>
+                <p><strong>Categoria:</strong>
+                    <span>{{ post.categoria }}</span>
+                </p>
                 <p><strong>Etiquetas:</strong> 
                     {% for etiqueta in post.etiqueta.all %}
                     <span class="tag">{{ etiqueta.nombre }}</span>{% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </p>
+
+                <a href="{% url 'postDetail' post.id %}">
+                    <button>Ver Detalles</button>
+                </a>
+
+                <!-- comentarios -->
+                <div class="comentarios">
+                    <h3>Comentarios:</h3>
+                    {% for comentario in post.comentarios.all %}
+                        <p><strong>{{ comentario.autor }}</strong>: {{ comentario.content }}</p>
+                    {% empty %}
+                        <p>No hay comentarios aún.</p>
+                    {% endfor %}
+                </div>
+
+                <!-- formulario para agregar comentarios -->
+                <h4>Deja un comentario:</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                    {{ form.as_p }}
+                    <button type="submit">Enviar comentario</button>
+                </form>
             </div>
             {% endfor %}
         {% else %}
